@@ -1,22 +1,24 @@
 import { Search, Bell, Play, Info, Star, Film } from 'lucide-react';
+import { useEffect } from 'react';
+import { getPopularMovies } from './api/movies';
 
 export default function App() {
+
+
+  useEffect(() => {
+    getPopularMovies().then(({ data }) => console.log(data));
+  }, []);
 
   return (
     <>
       <div className="relative w-full h-130 overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/1252890/pexels-photo-1252890.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="Featured"
-          className="w-full h-full object-cover"
-        />
         <div className="absolute inset-0 bg-linear-to-r from-black via-black/60 to-transparent" />
         <div className="absolute inset-0 bg-linear-to-t from-[#0d0d0d] via-transparent to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16 pb-16">
           <div className="max-w-lg">
             <div className="flex items-center gap-2 mb-3">
               <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">FEATURED</span>
-              <span className="text-gray-400 text-sm">featured.year</span>
+              <span className="text-gray-400 text-sm">{ }</span>
               <span className="text-gray-600">•</span>
               <div className="flex items-center gap-1">
                 <Star size={12} className="text-amber-400 fill-amber-400" />
