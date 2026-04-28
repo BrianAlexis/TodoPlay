@@ -1,14 +1,29 @@
+import { useState } from 'react';
+
+import usePlayTrailer from '../hooks/usePlayTrailer';
+
 import { Play, Info, Star } from 'lucide-react';
+
 import type { Genre } from '../types/moviesData';
 import type { MoviesData } from '../types/moviesData';
+
+import TrailerModal from './TrailerModal';
 
 interface Props {
     popularMovies: MoviesData[],
     genres: Genre[]
 }
 
-const FeaturedMovies = ({ popularMovies, genres }: Props) => {
+const FeaturedMovie = ({ popularMovies, genres }: Props) => {
     const featuredMovie = popularMovies[0];
+
+    const [trailerKey, setTrailerKey] = useState<string | null>(null);
+
+    const { handlePlayTrailer, isLoadingTrailer, trailerError } = usePlayTrailer({
+        id: featuredMovie?.id,
+        isMovie: true,
+        setTrailerKey,
+    });
 
     if (!featuredMovie) {
         return (
@@ -29,7 +44,7 @@ const FeaturedMovies = ({ popularMovies, genres }: Props) => {
             <div className="absolute inset-0 bg-linear-to-t from-[#090b14] via-[#090b14]/40 to-transparent" />
 
             <div className="absolute inset-0 flex items-end p-5 sm:p-8 lg:p-10">
-                <div className="grid w-full max-w-5xl items-end gap-6 lg:grid-cols-[180px_1fr]">
+                <div className="grid items-center w-full max-w-5xl gap-6 lg:grid-cols-[180px_1fr]">
                     <img
                         src={`${imageBaseUrl}/w342${featuredMovie.poster_path}`}
                         alt={`${featuredMovie.title} poster`}
@@ -65,17 +80,25 @@ const FeaturedMovies = ({ popularMovies, genres }: Props) => {
                         </p>
 
                         <div className="flex items-center gap-3">
-                            <button className="flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-red-500">
-                                <Play size={16} fill="white" /> Watch Now
+                            <button
+                                type='button'
+                                onClick={handlePlayTrailer}
+                                disabled={isLoadingTrailer}
+                                className="flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-red-500 cursor-pointer">
+                                <Play size={16} fill="white" /> Watch trailer
                             </button>
-                            <button className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20">
+                            {trailerError && (
+                                <p className="mb-2 text-[11px] leading-tight text-red-300">{trailerError}</p>
+                            )}
+                            <button className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer">
                                 <Info size={16} /> More Info
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <TrailerModal trailerKey={trailerKey} onClose={() => setTrailerKey(null)} />
         </section>
     )
 }
-export default FeaturedMovies
+export default FeaturedMovie

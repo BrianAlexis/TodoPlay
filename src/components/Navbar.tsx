@@ -33,7 +33,7 @@ const Navbar = () => {
                     <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                         type="text"
-                        placeholder="Buscar peliculas o series..."
+                        placeholder="Search new movies or TV shows..."
                         className="h-10 w-full rounded-xl border border-white/10 bg-white/5 pl-9 pr-3 text-sm text-white outline-none transition-all placeholder:text-slate-400 focus:border-blue-400/70 focus:bg-white/10"
                     />
                 </div>

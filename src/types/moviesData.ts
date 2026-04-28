@@ -16,7 +16,6 @@ export interface MoviesData {
     video: boolean;
     vote_average: number;
     vote_count: number;
-
 }
 
 export interface PopularMoviesData {
@@ -33,4 +32,49 @@ export interface Genre {
 
 export interface GenreMovieData {
     genres: Genre[];
+}
+
+export interface MovieDetailData {
+    id: number;
+    title: string;
+    overview: string;
+    poster_path: string;
+    backdrop_path: string;
+    release_date: string;
+    runtime: number;
+    vote_average: number;
+    vote_count: number;
+    budget: number;
+    revenue: number;
+    status: string;
+    tagline: string;
+    genres: Genre[];
+    credits: {
+        cast: CastMember[];
+        crew: CrewMember[];
+    };
+    videos: {
+        results: Video[];
+    };
+}
+
+export interface CastMember {
+    id: number;
+    name: string;
+    character: string;
+    profile_path: string | null;
+}
+
+export interface CrewMember {
+    id: number;
+    name: string;
+    job: string;
+    profile_path: string | null;
+}
+
+export interface Video {
+    key: string;
+    site: string;
+    type: string;
+    official: boolean;
 }

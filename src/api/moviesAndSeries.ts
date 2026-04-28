@@ -9,3 +9,5 @@ export const getTrendingMovies = () => tmdb.get('/trending/movie/week')
 export const getTrendingSeries = () => tmdb.get('/trending/tv/week')
 export const getMovieVideos = (id: number) => tmdb.get(`/movie/${id}/videos`);
 export const getSeriesVideos = (id: number) => tmdb.get(`/tv/${id}/videos`);
+export const getMovieDetail = (id: number) => tmdb.get(`/movie/${id}`, { params: { append_to_response: 'videos,credits' } });
+export const getSerieDetail = (id: number) => tmdb.get(`/tv/${id}`, { params: { append_to_response: 'videos,credits' } });

@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { Play, Info, Star, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router';
+
+import { Play, Info, Star, TrendingUp, Heart } from 'lucide-react';
 
 import type { Genre, MoviesData as MovieResult } from '../types/moviesData';
 import type { Result as SeriesResult } from '../types/seriesData';
-import { getMovieVideos, getSeriesVideos } from '../api/movies';
+
+import usePlayTrailer from '../hooks/usePlayTrailer';
+
 import TrailerModal from './TrailerModal';
 
 interface Props {
@@ -13,45 +17,23 @@ interface Props {
 }
 
 const MovieCard = ({ show, genres, showHotBadge = false }: Props) => {
-    const [trailerKey, setTrailerKey] = useState<string | null>(null);
-    const [isLoadingTrailer, setIsLoadingTrailer] = useState(false);
-    const [trailerError, setTrailerError] = useState<string | null>(null);
 
+    const navigate = useNavigate()
+
+    const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const isMovie = 'title' in show;
+
+    const { handlePlayTrailer, isLoadingTrailer, trailerError } = usePlayTrailer({
+        id: show.id,
+        isMovie,
+        setTrailerKey,
+    });
+
     const showTitle = 'title' in show ? show.title : show.name;
     const showReleaseDate = 'release_date' in show ? show.release_date : show.first_air_date;
 
-    const handlePlayTrailer = async () => {
-        try {
-            setIsLoadingTrailer(true);
-            setTrailerError(null);
-
-            const res = isMovie ? await getMovieVideos(show.id) : await getSeriesVideos(show.id);
-            const videos = (res.data?.results ?? []) as Array<{
-                key?: string;
-                site?: string;
-                type?: string;
-            }>;
-
-            const selectedVideo =
-                videos.find((video) => video.site === 'YouTube' && video.type === 'Trailer') ??
-                videos.find((video) => video.site === 'YouTube');
-
-            if (!selectedVideo?.key) {
-                setTrailerError('No se encontro trailer para este titulo.');
-                return;
-            }
-
-            setTrailerKey(selectedVideo.key);
-        } catch {
-            setTrailerError('No se pudo cargar el trailer. Intenta de nuevo.');
-        } finally {
-            setIsLoadingTrailer(false);
-        }
-    };
-
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30'>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${show.media_type === 'tv' ? 'series' : 'movie'}/${show.id}`)}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img
@@ -80,7 +62,7 @@ const MovieCard = ({ show, genres, showHotBadge = false }: Props) => {
                             type="button"
                             onClick={handlePlayTrailer}
                             disabled={isLoadingTrailer}
-                            className="flex-1 bg-white text-black text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-gray-200 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="flex-1 bg-white text-black text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-gray-200 transition-colors disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                         >
                             <Play size={12} fill="black" /> {isLoadingTrailer ? 'Loading...' : 'Watch trailer'}
                         </button>
@@ -102,6 +84,7 @@ const MovieCard = ({ show, genres, showHotBadge = false }: Props) => {
 
             <div className="p-3">
                 <h3 className="mb-1 truncate text-sm font-semibold text-white">{showTitle}</h3>
+                <Heart size={20} className='cursor-pointer' />
                 <div className="flex items-center gap-2">
                     <span className="text-gray-400 text-xs">{String(showReleaseDate).slice(0, 4)}</span>
                     <span className="text-gray-600 text-xs">•</span>

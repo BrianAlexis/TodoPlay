@@ -23,7 +23,7 @@ const TrendingSeries = ({ trendingSeries, genres }: Props) => {
                 </span>
             </div>
 
-            <div className="overflow-x-auto pb-2">
+            <div className="overflow-x-hidden pb-2">
                 <div className="flex min-w-max gap-4 md:gap-5">
                     {trendingSeries.map(series => (
                         <div

@@ -15,9 +15,6 @@ const DiscoverMovies = ({ discoverMovies, genres }: Props) => {
                     <Film size={25} className="text-red-500" />
                     <h2 className="text-white text-2xl font-bold"><span className='text-red-500'>Discover</span> new movies</h2>
                 </div>
-                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-slate-200">
-                    {discoverMovies.length} movies
-                </span>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
