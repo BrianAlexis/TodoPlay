@@ -1,27 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import usePlayTrailer from '../hooks/usePlayTrailer';
+
 import { Play, Info, Star, TrendingUp, Heart } from 'lucide-react';
 
 import type { Genre, MoviesData as MovieResult } from '../types/moviesData';
 import type { Result as SeriesResult } from '../types/seriesData';
 
-import usePlayTrailer from '../hooks/usePlayTrailer';
-
 import TrailerModal from './TrailerModal';
+
 
 interface Props {
     show: MovieResult | SeriesResult,
     genres: Genre[],
-    showHotBadge?: boolean
+    showHotBadge?: boolean,
+    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
+    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
 }
 
-const MovieCard = ({ show, genres, showHotBadge = false }: Props) => {
+const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavorite }: Props) => {
 
     const navigate = useNavigate()
 
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const isMovie = 'title' in show;
+
+    const type = 'title' in show ? 'movie' : 'tv';
+    const favorited = isFavorite(show.id, type);
 
     const { handlePlayTrailer, isLoadingTrailer, trailerError } = usePlayTrailer({
         id: show.id,
@@ -83,8 +89,21 @@ const MovieCard = ({ show, genres, showHotBadge = false }: Props) => {
             </div>
 
             <div className="p-3">
-                <h3 className="mb-1 truncate text-sm font-semibold text-white">{showTitle}</h3>
-                <Heart size={20} className='cursor-pointer' />
+                <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="truncate text-sm font-semibold text-white">{showTitle}</h3>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(show.id, type);
+                        }}
+                        className="shrink-0 rounded-full p-1 transition-colors hover:bg-white/10 cursor-pointer"
+                    >
+                        <Heart
+                            size={20}
+                            className={favorited ? 'fill-red-500 text-red-500' : 'text-white'}
+                        />
+                    </button>
+                </div>
                 <div className="flex items-center gap-2">
                     <span className="text-gray-400 text-xs">{String(showReleaseDate).slice(0, 4)}</span>
                     <span className="text-gray-600 text-xs">•</span>

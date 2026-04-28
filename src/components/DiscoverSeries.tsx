@@ -5,10 +5,12 @@ import { Film } from 'lucide-react';
 
 interface Props {
     discoverSeries: SeriesResult[],
-    genres: Genre[]
+    genres: Genre[],
+    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
+    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
 }
 
-const DiscoverSeries = ({ discoverSeries, genres }: Props) => {
+const DiscoverSeries = ({ discoverSeries, genres, isFavorite, toggleFavorite }: Props) => {
     return (
         <section id='discover-series' className="mt-15">
             <div className="mb-5 flex items-center justify-between">
@@ -22,7 +24,7 @@ const DiscoverSeries = ({ discoverSeries, genres }: Props) => {
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
                 {discoverSeries.map(series => (
-                    <MovieCard key={series.id} show={series} genres={genres} />
+                    <MovieCard key={series.id} show={series} genres={genres} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                 ))}
             </div>
         </section>

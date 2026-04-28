@@ -4,10 +4,12 @@ import { TrendingUp } from 'lucide-react';
 
 interface Props {
     trendingMovies: MoviesData[],
-    genres: Genre[]
+    genres: Genre[],
+    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
+    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
 }
 
-const TrendingMovies = ({ trendingMovies, genres }: Props) => {
+const TrendingMovies = ({ trendingMovies, genres, isFavorite, toggleFavorite }: Props) => {
     return (
         <section id='trending-movies' className="mt-8">
             <div className="mb-5 flex items-center justify-between">
@@ -29,7 +31,7 @@ const TrendingMovies = ({ trendingMovies, genres }: Props) => {
                             key={movie.id}
                             className="w-[calc((100vw-3.5rem)/2)] min-w-[160px] max-w-[220px] sm:w-48 md:w-52 lg:w-56 xl:w-[calc((min(100vw,80rem)-5.5rem)/5)] xl:min-w-[200px]"
                         >
-                            <MovieCard show={movie} genres={genres} showHotBadge />
+                            <MovieCard show={movie} genres={genres} showHotBadge isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                         </div>
                     ))}
                 </div>

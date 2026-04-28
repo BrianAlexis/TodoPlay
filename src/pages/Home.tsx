@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getDiscoverMovies, getDiscoverSeries, getGenres, getPopularMovies, getTrendingMovies, getTrendingSeries } from '../api/moviesAndSeries';
 
+import useFavorites from '../hooks/useFavorites';
 
 import type { MoviesData as MovieResult } from '../types/moviesData';
 import type { Result as SeriesResult } from '../types/seriesData';
@@ -21,6 +22,7 @@ export default function Home() {
     const [discoverMovies, setDiscoverMovies] = useState<MovieResult[]>([]);
     const [discoverSeries, setDiscoverSeries] = useState<SeriesResult[]>([]);
 
+    const { toggleFavorite, isFavorite } = useFavorites();
 
     useEffect(() => {
         Promise.all([
@@ -45,10 +47,10 @@ export default function Home() {
             <div className="mx-auto w-full max-w-400 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
                 <Navbar />
                 <FeaturedMovie popularMovies={popularMovies} genres={genres} />
-                <TrendingMovies trendingMovies={trendingMovies} genres={genres} />
-                <TrendingSeries trendingSeries={trendingSeries} genres={genres} />
-                <DiscoverMovies discoverMovies={discoverMovies} genres={genres} />
-                <DiscoverSeries discoverSeries={discoverSeries} genres={genres} />
+                <TrendingMovies trendingMovies={trendingMovies} genres={genres} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+                <TrendingSeries trendingSeries={trendingSeries} genres={genres} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+                <DiscoverMovies discoverMovies={discoverMovies} genres={genres} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+                <DiscoverSeries discoverSeries={discoverSeries} genres={genres} toggleFavorite={toggleFavorite} isFavorite={isFavorite} />
             </div>
         </main>
     );

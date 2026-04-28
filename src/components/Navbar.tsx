@@ -4,7 +4,7 @@ const navItems = [
     { label: 'Home', href: '#featured-movies' },
     { label: 'Series', href: '#trending-series' },
     { label: 'Movies', href: '#trending-movies' },
-    { label: 'My List', href: '#' },
+    { label: 'My favorites', href: '/favorites' },
 ];
 
 const Navbar = () => {

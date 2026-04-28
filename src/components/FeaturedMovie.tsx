@@ -8,6 +8,7 @@ import type { Genre } from '../types/moviesData';
 import type { MoviesData } from '../types/moviesData';
 
 import TrailerModal from './TrailerModal';
+import { useNavigate } from 'react-router';
 
 interface Props {
     popularMovies: MoviesData[],
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const FeaturedMovie = ({ popularMovies, genres }: Props) => {
+    const navigate = useNavigate()
     const featuredMovie = popularMovies[0];
 
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
@@ -90,7 +92,8 @@ const FeaturedMovie = ({ popularMovies, genres }: Props) => {
                             {trailerError && (
                                 <p className="mb-2 text-[11px] leading-tight text-red-300">{trailerError}</p>
                             )}
-                            <button className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer">
+                            <button className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer"
+                                onClick={() => navigate(`/movie/${featuredMovie.id}`)}>
                                 <Info size={16} /> More Info
                             </button>
                         </div>
