@@ -8,7 +8,7 @@ import type { Genre } from '../types/moviesData';
 import type { MoviesData } from '../types/moviesData';
 
 import TrailerModal from './TrailerModal';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 interface Props {
     popularMovies: MoviesData[],
@@ -16,7 +16,6 @@ interface Props {
 }
 
 const FeaturedMovie = ({ popularMovies, genres }: Props) => {
-    const navigate = useNavigate()
     const featuredMovie = popularMovies[0];
 
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
@@ -45,7 +44,7 @@ const FeaturedMovie = ({ popularMovies, genres }: Props) => {
             <div className="absolute inset-0 bg-linear-to-r from-[#080a13] via-[#080a13]/80 to-[#080a13]/25" />
             <div className="absolute inset-0 bg-linear-to-t from-[#090b14] via-[#090b14]/40 to-transparent" />
 
-            <div className="absolute inset-0 flex items-end p-5 sm:p-8 lg:p-10">
+            <div className="absolute self-center inset-0 flex p-5 sm:p-8 lg:p-10">
                 <div className="grid items-center w-full max-w-5xl gap-6 lg:grid-cols-[180px_1fr]">
                     <img
                         src={`${imageBaseUrl}/w342${featuredMovie.poster_path}`}
@@ -92,10 +91,10 @@ const FeaturedMovie = ({ popularMovies, genres }: Props) => {
                             {trailerError && (
                                 <p className="mb-2 text-[11px] leading-tight text-red-300">{trailerError}</p>
                             )}
-                            <button className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer"
-                                onClick={() => navigate(`/movie/${featuredMovie.id}`)}>
+                            <Link className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer"
+                                to={`/movie/${featuredMovie.id}`}>
                                 <Info size={16} /> More Info
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

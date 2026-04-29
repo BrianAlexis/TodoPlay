@@ -35,8 +35,8 @@ export default function Home() {
         ]).then(([moviesRes, genresRes, trendingMoviesRes, trendingSeriesRes, discoverMoviesRes, discoverSeriesRes]) => {
             setPopularMovies(moviesRes.data.results);
             setGenres(genresRes.data.genres);
-            setTrendingMovies(trendingMoviesRes.data.results)
-            setTrendingSeries(trendingSeriesRes.data.results)
+            setTrendingMovies(trendingMoviesRes.data.results.slice(0, 6))
+            setTrendingSeries(trendingSeriesRes.data.results.slice(0, 6))
             setDiscoverMovies(discoverMoviesRes.data.results.slice(0, 10))
             setDiscoverSeries(discoverSeriesRes.data.results.slice(0, 10))
         });

@@ -1,12 +1,13 @@
-import { useParams, useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getMovieDetail } from '../api/moviesAndSeries';
 import type { MovieDetailData } from '../types/moviesData';
-import { ArrowLeft, Star, Clock, Play, Calendar } from 'lucide-react';
+import type { Video } from '../types/moviesData';
+import { Star, Clock, Play, Calendar } from 'lucide-react';
+import BackButton from '../components/ui/BackButton';
 
 const MovieDetail = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
     const [movie, setMovie] = useState<MovieDetailData | null>(null);
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const [showTrailer, setShowTrailer] = useState(false);
@@ -15,7 +16,7 @@ const MovieDetail = () => {
         getMovieDetail(Number(id)).then(({ data }) => {
             setMovie(data);
             const trailer = data.videos.results.find(
-                (v: any) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
+                (v: Video) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
             );
             setTrailerKey(trailer?.key ?? null);
         });
@@ -42,12 +43,7 @@ const MovieDetail = () => {
                 <div className="absolute inset-0 bg-linear-to-t from-[#090b14] via-[#090b14]/60 to-transparent" />
                 <div className="absolute inset-0 bg-linear-to-r from-[#090b14] via-transparent to-transparent" />
 
-                <button
-                    onClick={() => navigate(-1)}
-                    className="absolute top-6 left-6 flex items-center gap-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
-                >
-                    <ArrowLeft size={18} /> Back
-                </button>
+                <BackButton />
             </div>
 
             <div className="max-w-6xl mx-auto px-6 -mt-150 relative z-10">

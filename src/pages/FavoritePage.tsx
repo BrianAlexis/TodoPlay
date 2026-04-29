@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react';
 import { getMovieDetail, getSerieDetail } from '../api/moviesAndSeries';
 
 import useFavorites from '../hooks/useFavorites';
-import { ArrowLeft, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 import type { MovieDetailData } from '../types/moviesData';
 import type { SeriesDetailData } from '../types/seriesData';
 import FavoriteCard from '../components/FavoriteCard';
-import { useNavigate } from 'react-router';
+import BackButton from '../components/ui/BackButton';
 
 const FavoritesPage = () => {
     const { favorites, toggleFavorite } = useFavorites();
     const [favoriteDetails, setFavoriteDetails] = useState<(MovieDetailData | SeriesDetailData)[]>([]);
-    const navigate = useNavigate();
 
     const favoriteMovies = favoriteDetails.filter(item => 'title' in item) as MovieDetailData[];
     const favoriteSeries = favoriteDetails.filter(item => 'name' in item) as SeriesDetailData[];
@@ -40,12 +39,7 @@ const FavoritesPage = () => {
                     <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-red-600/20">
                         <Heart size={20} className="fill-red-500 text-red-500" />
                     </div>
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="absolute top-6 left-6 flex items-center gap-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl transition-colors cursor-pointer"
-                    >
-                        <ArrowLeft size={18} /> Back
-                    </button>
+                    <BackButton />
                     <div>
                         <h1 className="text-2xl font-bold text-white">My Favorites</h1>
                     </div>

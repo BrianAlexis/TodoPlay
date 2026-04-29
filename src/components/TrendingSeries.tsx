@@ -20,17 +20,14 @@ const TrendingSeries = ({ trendingSeries, genres, isFavorite, toggleFavorite }: 
                         <h2 className="text-white text-2xl font-bold">Trending Series</h2>
                     </div>
                 </div>
-                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-slate-200">
-                    {trendingSeries.length} series
-                </span>
             </div>
 
             <div className="overflow-x-hidden pb-2">
-                <div className="flex min-w-max gap-4 md:gap-5">
+                <div className="flex min-w-max gap-4 md:gap-10">
                     {trendingSeries.map(series => (
                         <div
                             key={series.id}
-                            className="w-[calc((100vw-3.5rem)/2)] min-w-[160px] max-w-[220px] sm:w-48 md:w-52 lg:w-56 xl:w-[calc((min(100vw,80rem)-5.5rem)/5)] xl:min-w-[200px]"
+                            className="w-[calc((100vw-3.5rem)/2)] min-w-40 max-w-55 sm:w-48 md:w-52 lg:w-56 xl:w-[calc((min(100vw,80rem)-5.5rem)/5)] xl:min-w-50"
                         >
                             <MovieCard show={series} genres={genres} showHotBadge isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                         </div>

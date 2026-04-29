@@ -39,7 +39,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     const showReleaseDate = 'release_date' in show ? show.release_date : show.first_air_date;
 
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-300 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${show.media_type === 'tv' ? 'series' : 'movie'}/${show.id}`)}>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${show.media_type === 'tv' ? 'series' : 'movie'}/${show.id}`)}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img

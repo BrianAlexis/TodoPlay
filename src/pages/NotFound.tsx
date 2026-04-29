@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { Home, Film } from 'lucide-react';
+import BackButton from '../components/ui/BackButton';
 
 const NotFound = () => {
-    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-[#090b14] flex flex-col items-center justify-center text-white px-6">
@@ -25,18 +25,14 @@ const NotFound = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <button
-                        onClick={() => navigate('/')}
+                    <Link
+                        to={'/'}
                         className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto justify-center"
                     >
-                        <Home size={16} /> Back to CineVerse
-                    </button>
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto justify-center"
-                    >
-                        Back
-                    </button>
+                        <Home size={16} /> Back to StreamingFlix
+                    </Link>
+
+                    <BackButton />
                 </div>
             </div>
 

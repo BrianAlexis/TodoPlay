@@ -1,6 +1,7 @@
 import MovieCard from './MovieCard';
 import type { MoviesData, Genre } from '../types/moviesData';
-import { Film } from 'lucide-react';
+import { ArrowRight, Film } from 'lucide-react';
+import { Link } from 'react-router';
 
 interface Props {
     discoverMovies: MoviesData[],
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const DiscoverMovies = ({ discoverMovies, genres, isFavorite, toggleFavorite }: Props) => {
+
     return (
         <section id='discover-movies' className="mt-15">
             <div className="mb-5 flex items-center justify-between">
@@ -17,6 +19,16 @@ const DiscoverMovies = ({ discoverMovies, genres, isFavorite, toggleFavorite }: 
                     <Film size={25} className="text-red-500" />
                     <h2 className="text-white text-2xl font-bold"><span className='text-red-500'>Discover</span> new movies</h2>
                 </div>
+                <Link
+                    to={'/discover/movies'}
+                    className="group flex items-center gap-1 text-xs font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
+                >
+                    More movies
+                    <ArrowRight
+                        size={18}
+                        className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
