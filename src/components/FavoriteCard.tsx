@@ -5,19 +5,19 @@ import type { SeriesDetailData } from '../types/seriesData';
 
 interface Props {
     item: MovieDetailData | SeriesDetailData;
-    toggleFavorite: (id: number, type: 'movie' | 'tv') => void;
+    toggleFavorite: (id: number, type: 'movie' | 'series') => void;
 }
 
 const FavoriteCard = ({ item, toggleFavorite }: Props) => {
     const navigate = useNavigate();
     const isMovie = 'title' in item;
+    const type = isMovie ? 'movie' : 'series';
     const title = isMovie ? item.title : item.name;
     const date = isMovie ? item.release_date : item.first_air_date;
-    const type = isMovie ? 'movie' : 'tv';
 
     return (
         <article
-            onClick={() => navigate(`/${type === 'tv' ? 'series' : 'movie'}/${item.id}`)}
+            onClick={() => navigate(`/${type}/${item.id}`)}
             className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-300 hover:-translate-y-1 hover:border-white/25"
         >
             <div className="relative aspect-2/3 overflow-hidden">

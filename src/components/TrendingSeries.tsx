@@ -6,8 +6,8 @@ import { TrendingUp } from 'lucide-react';
 interface Props {
     trendingSeries: SeriesResult[],
     genres: Genre[],
-    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
-    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
+    toggleFavorite: (id: number, type: 'movie' | 'series') => void,
+    isFavorite: (id: number, type: 'movie' | 'series') => boolean,
 }
 
 const TrendingSeries = ({ trendingSeries, genres, isFavorite, toggleFavorite }: Props) => {

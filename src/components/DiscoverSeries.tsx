@@ -1,14 +1,14 @@
 import MovieCard from './MovieCard';
 import type { Result as SeriesResult } from '../types/seriesData';
-import type { Genre } from '../types/moviesData';
+import type { Genre } from '../types/seriesData';
 import { ArrowRight, Film } from 'lucide-react';
 import { Link } from 'react-router';
 
 interface Props {
     discoverSeries: SeriesResult[],
     genres: Genre[],
-    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
-    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
+    toggleFavorite: (id: number, type: 'movie' | 'series') => void,
+    isFavorite: (id: number, type: 'movie' | 'series') => boolean,
 }
 
 const DiscoverSeries = ({ discoverSeries, genres, isFavorite, toggleFavorite }: Props) => {
@@ -23,7 +23,7 @@ const DiscoverSeries = ({ discoverSeries, genres, isFavorite, toggleFavorite }: 
                     </div>
                 </div>
                 <Link
-                    to={'/discover/movies'}
+                    to={'/discover/series'}
                     className="group flex items-center gap-1 text-xs font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
                 >
                     More series

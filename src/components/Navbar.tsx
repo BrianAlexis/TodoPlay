@@ -15,7 +15,7 @@ const Navbar = () => {
 
                 <div className="flex-1">
                     <a href="#" className="text-xl font-black tracking-tight text-red-500 sm:text-2xl">
-                        MoviesFlix
+                        TodoPlay
                     </a>
                 </div>
 

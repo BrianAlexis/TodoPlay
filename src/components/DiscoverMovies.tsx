@@ -6,8 +6,8 @@ import { Link } from 'react-router';
 interface Props {
     discoverMovies: MoviesData[],
     genres: Genre[],
-    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
-    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
+    toggleFavorite: (id: number, type: 'movie' | 'series') => void,
+    isFavorite: (id: number, type: 'movie' | 'series') => boolean,
 }
 
 const DiscoverMovies = ({ discoverMovies, genres, isFavorite, toggleFavorite }: Props) => {

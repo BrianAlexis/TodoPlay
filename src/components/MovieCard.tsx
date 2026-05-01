@@ -15,8 +15,8 @@ interface Props {
     show: MovieResult | SeriesResult,
     genres: Genre[],
     showHotBadge?: boolean,
-    toggleFavorite: (id: number, type: 'movie' | 'tv') => void,
-    isFavorite: (id: number, type: 'movie' | 'tv') => boolean,
+    toggleFavorite: (id: number, type: 'movie' | 'series') => void,
+    isFavorite: (id: number, type: 'movie' | 'series') => boolean,
 }
 
 const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavorite }: Props) => {
@@ -26,7 +26,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const isMovie = 'title' in show;
 
-    const type = 'title' in show ? 'movie' : 'tv';
+    const type = 'title' in show ? 'movie' : 'series';
     const favorited = isFavorite(show.id, type);
 
     const { handlePlayTrailer, isLoadingTrailer, trailerError } = usePlayTrailer({
@@ -39,7 +39,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     const showReleaseDate = 'release_date' in show ? show.release_date : show.first_air_date;
 
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${show.media_type === 'tv' ? 'series' : 'movie'}/${show.id}`)}>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${type}/${show.id}`)}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img

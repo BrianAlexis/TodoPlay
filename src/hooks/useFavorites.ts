@@ -2,7 +2,7 @@ import { useState } from "react"
 
 interface Favorite {
     id: number;
-    type: 'movie' | 'tv';
+    type: 'movie' | 'series';
 }
 
 const useFavorites = () => {
@@ -12,7 +12,7 @@ const useFavorites = () => {
         return stored ? JSON.parse(stored) : [];
     });
 
-    const toggleFavorite = (id: number, type: 'movie' | 'tv') => {
+    const toggleFavorite = (id: number, type: 'movie' | 'series') => {
         const alreadyFavorite = favorites.find(f => f.id === id && f.type === type);
 
         const newFavorites = alreadyFavorite
@@ -23,7 +23,7 @@ const useFavorites = () => {
         localStorage.setItem('favoriteShow', JSON.stringify(newFavorites));
     };
 
-    const isFavorite = (id: number, type: 'movie' | 'tv') => {
+    const isFavorite = (id: number, type: 'movie' | 'series') => {
         return !!favorites.find(f => f.id === id && f.type === type);
     }
 

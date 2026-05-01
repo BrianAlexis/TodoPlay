@@ -29,7 +29,7 @@ const NotFound = () => {
                         to={'/'}
                         className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto justify-center"
                     >
-                        <Home size={16} /> Back to StreamingFlix
+                        <Home size={16} /> Back to TodoPlay
                     </Link>
 
                     <BackButton />

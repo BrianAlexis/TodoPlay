@@ -1,11 +1,12 @@
-
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getDiscoverMovies, getDiscoverSeries, getGenres, getPopularMovies, getTrendingMovies, getTrendingSeries } from '../api/moviesAndSeries';
 
 import useFavorites from '../hooks/useFavorites';
 
+import type { PopularMoviesData, GenreMovieData } from '../types/moviesData';
 import type { MoviesData as MovieResult } from '../types/moviesData';
-import type { Result as SeriesResult } from '../types/seriesData';
+import type { Result as SeriesResult, SeriesData } from '../types/seriesData';
+
 import FeaturedMovie from '../components/FeaturedMovie';
 import TrendingMovies from '../components/TrendingMovies';
 import Navbar from '../components/Navbar';
@@ -15,32 +16,50 @@ import DiscoverSeries from '../components/DiscoverSeries';
 
 export default function Home() {
 
-    const [popularMovies, setPopularMovies] = useState<MovieResult[]>([]);
-    const [trendingMovies, setTrendingMovies] = useState<MovieResult[]>([]);
-    const [trendingSeries, setTrendingSeries] = useState<SeriesResult[]>([]);
-    const [genres, setGenres] = useState<{ id: number, name: string }[]>([]);
-    const [discoverMovies, setDiscoverMovies] = useState<MovieResult[]>([]);
-    const [discoverSeries, setDiscoverSeries] = useState<SeriesResult[]>([]);
-
     const { toggleFavorite, isFavorite } = useFavorites();
 
-    useEffect(() => {
-        Promise.all([
-            getPopularMovies(),
-            getGenres(),
-            getTrendingMovies(),
-            getTrendingSeries(),
-            getDiscoverMovies(),
-            getDiscoverSeries(),
-        ]).then(([moviesRes, genresRes, trendingMoviesRes, trendingSeriesRes, discoverMoviesRes, discoverSeriesRes]) => {
-            setPopularMovies(moviesRes.data.results);
-            setGenres(genresRes.data.genres);
-            setTrendingMovies(trendingMoviesRes.data.results.slice(0, 6))
-            setTrendingSeries(trendingSeriesRes.data.results.slice(0, 6))
-            setDiscoverMovies(discoverMoviesRes.data.results.slice(0, 10))
-            setDiscoverSeries(discoverSeriesRes.data.results.slice(0, 10))
-        });
-    }, []);
+    const { data: popularMoviesData } = useQuery<PopularMoviesData>({
+        queryKey: ['popularMovies'],
+        queryFn: () => getPopularMovies().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const { data: genresData } = useQuery<GenreMovieData>({
+        queryKey: ['genres'],
+        queryFn: () => getGenres().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const { data: trendingMoviesData } = useQuery<PopularMoviesData>({
+        queryKey: ['trendingMovies'],
+        queryFn: () => getTrendingMovies().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const { data: trendingSeriesData } = useQuery<SeriesData>({
+        queryKey: ['trendingSeries'],
+        queryFn: () => getTrendingSeries().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const { data: discoverMoviesData } = useQuery<PopularMoviesData>({
+        queryKey: ['discoverMovies'],
+        queryFn: () => getDiscoverMovies().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const { data: discoverSeriesData } = useQuery<SeriesData>({
+        queryKey: ['discoverSeries'],
+        queryFn: () => getDiscoverSeries().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const popularMovies: MovieResult[] = popularMoviesData?.results ?? [];
+    const genres = genresData?.genres ?? [];
+    const trendingMovies: MovieResult[] = trendingMoviesData?.results.slice(0, 6) ?? [];
+    const trendingSeries: SeriesResult[] = trendingSeriesData?.results.slice(0, 6) ?? [];
+    const discoverMovies: MovieResult[] = discoverMoviesData?.results.slice(0, 10) ?? [];
+    const discoverSeries: SeriesResult[] = discoverSeriesData?.results.slice(0, 10) ?? [];
 
     return (
         <main className="min-h-screen bg-[#090b14] text-white">
