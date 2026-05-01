@@ -1,75 +1,105 @@
-# React + TypeScript + Vite
+# 🎬 TodoPlay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern movie and series discovery app built with React, powered by the TMDB API. Browse trending content, explore movies and series, watch trailers, and save your favorites.
 
-Currently, two official plugins are available:
+**Live demo:** [todo-play-liart.vercel.app](https://todo-play-liart.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Browse popular, trending, and discover movies and series
+- Watch trailers directly in the app via YouTube embed
+- Save movies and series to your favorites list (persisted in localStorage)
+- Dynamic detail pages for each movie and series
+- Infinite scroll with "Load more" pagination on discover pages
+- Prefetching on hover for instant page transitions
+- Full routing with 404 handling
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** with TypeScript
+- **Vite** as build tool
+- **React Router v7** for client-side routing
+- **TanStack Query v5** for data fetching, caching and prefetching
+- **Axios** for HTTP requests
+- **Tailwind CSS v4** for styling
+- **Lucide React** for icons
+- **TMDB API** as the data source
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- Node.js 18+
+- A TMDB account and API token ([get one here](https://www.themoviedb.org/settings/api))
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/todoplay.git
+cd todoplay
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file in the root of the project:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_TMDB_TOKEN=your_tmdb_read_access_token
+```
+
+> Use the **Read Access Token** (the long JWT), not the API Key.
+
+### Running locally
+
+```bash
+npm run dev
+```
+
+---
+
+## Project Structure
+
+```
+src/
+├── api/            # Axios instance and API endpoint functions
+├── components/     # Reusable UI components (MovieCard, Navbar, TrailerModal, etc.)
+├── hooks/          # Custom hooks (useFavorites, usePlayTrailer)
+├── pages/          # Page components (Home, MovieDetail, SeriesDetail, Favorites, etc.)
+│   └── discover/   # Discover movies and series pages
+├── types/          # TypeScript interfaces for TMDB data
+└── main.tsx        # App entry point
+```
+
+---
+
+## API
+
+This project uses the [TMDB API](https://www.themoviedb.org/documentation/api). The following endpoints are consumed:
+
+- `/movie/popular` — Popular movies
+- `/trending/movie/week` — Trending movies
+- `/trending/tv/week` — Trending series
+- `/discover/movie` — Discover movies with pagination
+- `/discover/tv` — Discover series with pagination
+- `/genre/movie/list` — Movie genres
+- `/movie/{id}` — Movie detail with videos and credits
+- `/tv/{id}` — Series detail with videos and credits
+
+---
+
+## License
+
+This project was built for learning purposes. All movie and series data is provided by [TMDB](https://www.themoviedb.org).
+
+> This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+## Author
+
+**Brian** — [LinkedIn](https://www.linkedin.com/in/brian-alexis-acu%C3%B1a/).
