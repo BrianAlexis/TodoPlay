@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { useQueryClient } from '@tanstack/react-query';
+import { getMovieDetail, getSerieDetail } from '../api/moviesAndSeries';
+
 import usePlayTrailer from '../hooks/usePlayTrailer';
 
 import { Play, Info, Star, TrendingUp, Heart } from 'lucide-react';
@@ -21,6 +24,7 @@ interface Props {
 
 const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavorite }: Props) => {
 
+    const queryClient = useQueryClient();
     const navigate = useNavigate()
 
     const [trailerKey, setTrailerKey] = useState<string | null>(null);
@@ -38,8 +42,22 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     const showTitle = 'title' in show ? show.title : show.name;
     const showReleaseDate = 'release_date' in show ? show.release_date : show.first_air_date;
 
+    const handleMouseEnter = () => {
+        if (isMovie) {
+            queryClient.prefetchQuery({
+                queryKey: ['movieDetail', show.id],
+                queryFn: () => getMovieDetail(show.id).then(res => res.data),
+            });
+        } else {
+            queryClient.prefetchQuery({
+                queryKey: ['seriesDetail', show.id],
+                queryFn: () => getSerieDetail(show.id).then(res => res.data),
+            });
+        }
+    };
+
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${type}/${show.id}`)}>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${type}/${show.id}`)} onMouseEnter={handleMouseEnter}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img

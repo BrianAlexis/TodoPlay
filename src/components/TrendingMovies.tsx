@@ -16,7 +16,7 @@ const TrendingMovies = ({ trendingMovies, genres, isFavorite, toggleFavorite }: 
                 <div>
                     <div className="flex items-center justify-center gap-2">
                         <TrendingUp size={25} className="text-red-600" />
-                        <h2 className="text-white text-2xl font-bold">Trending Movies</h2>
+                        <h2 className="text-white text-2xl font-bold">Trending <span className='text-red-500'>Movies</span></h2>
                     </div>
                 </div>
             </div>

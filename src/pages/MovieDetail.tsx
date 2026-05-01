@@ -1,26 +1,27 @@
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
 import { getMovieDetail } from '../api/moviesAndSeries';
-import type { MovieDetailData } from '../types/moviesData';
-import type { Video } from '../types/moviesData';
+
+import type { Video, MovieDetailData } from '../types/moviesData';
+
 import { Star, Clock, Play, Calendar } from 'lucide-react';
 import BackButton from '../components/ui/BackButton';
 
 const MovieDetail = () => {
     const { id } = useParams();
-    const [movie, setMovie] = useState<MovieDetailData | null>(null);
-    const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const [showTrailer, setShowTrailer] = useState(false);
 
-    useEffect(() => {
-        getMovieDetail(Number(id)).then(({ data }) => {
-            setMovie(data);
-            const trailer = data.videos.results.find(
-                (v: Video) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
-            );
-            setTrailerKey(trailer?.key ?? null);
-        });
-    }, [id]);
+    const { data: movie } = useQuery<MovieDetailData>({
+        queryKey: ['movieDetail', Number(id)],
+        queryFn: () => getMovieDetail(Number(id)).then(res => res.data),
+    });
+
+    const trailerKey = movie?.videos.results.find(
+        (v: Video) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
+    )?.key ?? null;
 
     if (!movie) return (
         <div className="min-h-screen bg-[#090b14] flex items-center justify-center">
@@ -42,13 +43,11 @@ const MovieDetail = () => {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#090b14] via-[#090b14]/60 to-transparent" />
                 <div className="absolute inset-0 bg-linear-to-r from-[#090b14] via-transparent to-transparent" />
-
                 <BackButton />
             </div>
 
             <div className="max-w-6xl mx-auto px-6 -mt-161 relative z-10">
                 <div className="flex gap-8">
-
                     <div className="hidden md:block shrink-0">
                         <img
                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

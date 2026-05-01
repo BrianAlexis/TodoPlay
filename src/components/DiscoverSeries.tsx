@@ -19,12 +19,12 @@ const DiscoverSeries = ({ discoverSeries, genres, isFavorite, toggleFavorite }: 
                 <div>
                     <div className="flex items-center justify-center gap-2">
                         <Film size={25} className="text-red-500" />
-                        <h2 className="text-white text-2xl font-bold"><span className='text-red-500'>Discover</span> new series</h2>
+                        <h2 className="text-white text-2xl font-bold">Discover new <span className='text-red-500'>series</span></h2>
                     </div>
                 </div>
                 <Link
                     to={'/discover/series'}
-                    className="group flex items-center gap-1 text-xs font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
+                    className="group flex items-center gap-1 text-sm font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
                 >
                     More series
                     <ArrowRight

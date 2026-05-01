@@ -14,9 +14,9 @@ const Navbar = () => {
             <div className="flex items-center justify-between">
 
                 <div className="flex-1">
-                    <a href="#" className="text-xl font-black tracking-tight text-red-500 sm:text-2xl">
-                        TodoPlay
-                    </a>
+                    <Link to="/">
+                        <img src="/logo.png" alt="Logo" className="h-6 w-auto" />
+                    </Link>
                 </div>
 
                 <nav className="hidden items-center gap-1 md:flex">
@@ -24,7 +24,7 @@ const Navbar = () => {
                         <Link
                             key={item.label}
                             to={item.href}
-                            className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+                            className="rounded-lg px-3 py-2 text-sm font-medium text-white-300 transition-colors hover:bg-white/10 hover:text-white"
                         >
                             {item.label}
                         </Link>

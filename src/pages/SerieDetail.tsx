@@ -1,26 +1,28 @@
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
 import { getSerieDetail } from '../api/moviesAndSeries';
-import type { SeriesDetailData } from '../types/seriesData';
-import type { Video } from '../types/moviesData';
+
+import type { Video, SeriesDetailData } from '../types/seriesData';
+
 import { Star, Play, Calendar } from 'lucide-react';
 import BackButton from '../components/ui/BackButton';
 
+
 const MovieDetail = () => {
     const { id } = useParams();
-    const [serie, setSerie] = useState<SeriesDetailData | null>(null);
-    const [trailerKey, setTrailerKey] = useState<string | null>(null);
     const [showTrailer, setShowTrailer] = useState(false);
 
-    useEffect(() => {
-        getSerieDetail(Number(id)).then(({ data }) => {
-            setSerie(data);
-            const trailer = data.videos.results.find(
-                (v: Video) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
-            );
-            setTrailerKey(trailer?.key ?? null);
-        });
-    }, [id]);
+    const { data: serie } = useQuery<SeriesDetailData>({
+        queryKey: ['seriesDetail', Number(id)],
+        queryFn: () => getSerieDetail(Number(id)).then(res => res.data),
+    });
+
+    const trailerKey = serie?.videos.results.find(
+        (v: Video) => v.type === 'Trailer' && v.site === 'YouTube' && v.official
+    )?.key ?? null;
 
     if (!serie) return (
         <div className="min-h-screen bg-[#090b14] flex items-center justify-center">

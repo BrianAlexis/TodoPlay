@@ -17,11 +17,11 @@ const DiscoverMovies = ({ discoverMovies, genres, isFavorite, toggleFavorite }: 
             <div className="mb-5 flex items-center justify-between">
                 <div className="flex items-center justify-center gap-2">
                     <Film size={25} className="text-red-500" />
-                    <h2 className="text-white text-2xl font-bold"><span className='text-red-500'>Discover</span> new movies</h2>
+                    <h2 className="text-white text-2xl font-bold">Discover new <span className='text-red-500'>movies</span></h2>
                 </div>
                 <Link
                     to={'/discover/movies'}
-                    className="group flex items-center gap-1 text-xs font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
+                    className="group flex items-center gap-1 text-sm font-bold uppercase text-red-500 underline underline-offset-6 cursor-pointer"
                 >
                     More movies
                     <ArrowRight
@@ -36,7 +36,7 @@ const DiscoverMovies = ({ discoverMovies, genres, isFavorite, toggleFavorite }: 
                     <MovieCard key={movie.id} show={movie} genres={genres} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
                 ))}
             </div>
-        </section>
+        </section >
     )
 }
 

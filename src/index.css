@@ -38,8 +38,8 @@ body {
 
 /* Works on Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #fb2c36 #090b14;
+  scrollbar-width: auto;
+  scrollbar-color: #fb2c36 #0e1220;
 }
 
 /* Works on Chrome, Edge, and Safari */
@@ -48,11 +48,26 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background: #090b14;
+  background: #0e1220;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #090b14;
+  background-color: #0e1220;
   border-radius: 20px;
   border: 3px solid #fb2c36;
+}
+
+@keyframes loading {
+  0% {
+    width: 0%;
+    margin-left: 0;
+  }
+  50% {
+    width: 70%;
+    margin-left: 30%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
 }
