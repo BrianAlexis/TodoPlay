@@ -1,45 +1,57 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getDiscoverSeries } from '../../api/moviesAndSeries';
-import { getGenres } from '../../api/moviesAndSeries';
+import { getSeriesGenres, getDiscoverSeries } from '../../api/moviesAndSeries';
 
 import MovieCard from '../../components/MovieCard';
 
 import useFavorites from '../../hooks/useFavorites';
-import type { Result, Genre } from '../../types/seriesData';
+import type { GenreSeriesData, Result } from '../../types/seriesData';
 import BackButton from '../../components/ui/BackButton';
+import FilterDropdown from '../../components/ui/FilterDropdown';
+
+import getYearOptions from '../../utils/years';
 
 const Series = () => {
 
     const [series, setSeries] = useState<Result[]>([]);
-    const [genres, setGenres] = useState<Genre[]>([]);
     const { toggleFavorite, isFavorite } = useFavorites();
+
     const [page, setPage] = useState(1);
     const [, setTotalPages] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+    const [selectedYear, setSelectedYear] = useState<number | null>(null);
+
+    const { data: genresData } = useQuery<GenreSeriesData>({
+        queryKey: ['seriesGenres'],
+        queryFn: () => getSeriesGenres().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const genres = genresData?.genres ?? [];
 
     useEffect(() => {
         let active = true;
+        const isFirstPage = page === 1;
 
-        getDiscoverSeries(page).then(res => {
+        getDiscoverSeries(page, selectedGenre, selectedYear).then(res => {
             if (!active) return;
             setSeries(prev => {
-                const newMovies = res.data.results.filter(
+                const results = res.data.results;
+                const newSeries = results.filter(
                     (serie: Result) => !prev.some(s => s.id === serie.id)
                 );
-                return [...prev, ...newMovies];
+                return isFirstPage ? results : [...prev, ...newSeries];
             });
             setTotalPages(res.data.total_pages);
             setIsLoading(false);
         });
 
         return () => { active = false; };
-    }, [page]);
-
-    useEffect(() => {
-        getGenres().then(res => setGenres(res.data.genres));
-    }, []);
+    }, [page, selectedGenre, selectedYear]);
 
 
     return (
@@ -48,6 +60,22 @@ const Series = () => {
             <BackButton />
 
             <h2 className='mb-10 mt-15 md:mt-0.5 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All our <span className='text-red-500'>series</span></h2>
+
+            <div className="flex items-center gap-3 mb-6">
+                <FilterDropdown
+                    label="Genre"
+                    options={genres}
+                    selected={selectedGenre}
+                    onSelect={(id) => { setSelectedGenre(id as number | null); setPage(1); }}
+                />
+                <FilterDropdown
+                    label="Year"
+                    options={getYearOptions()}
+                    selected={selectedYear}
+                    onSelect={(id) => { setSelectedYear(id as number | null); setPage(1); }}
+                />
+            </div>
+
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
                 {series.map(serie => (
                     <MovieCard key={serie.id} show={serie} genres={genres} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />

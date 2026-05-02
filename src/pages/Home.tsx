@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getDiscoverMovies, getDiscoverSeries, getGenres, getPopularMovies, getTrendingMovies, getTrendingSeries } from '../api/moviesAndSeries';
+import { getDiscoverMovies, getDiscoverSeries, getMoviesGenres, getPopularMovies, getTrendingMovies, getTrendingSeries } from '../api/moviesAndSeries';
 
 import useFavorites from '../hooks/useFavorites';
 
@@ -27,7 +27,7 @@ export default function Home() {
 
     const { data: genresData, isLoading: isLoadingGenres } = useQuery<GenreMovieData>({
         queryKey: ['genres'],
-        queryFn: () => getGenres().then(res => res.data),
+        queryFn: () => getMoviesGenres().then(res => res.data),
         staleTime: 1000 * 60 * 60
     });
 

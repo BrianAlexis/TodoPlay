@@ -1,51 +1,77 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getDiscoverMovies } from '../../api/moviesAndSeries';
-import { getGenres } from '../../api/moviesAndSeries';
+import { getMoviesGenres, getDiscoverMovies } from '../../api/moviesAndSeries';
 
 import MovieCard from '../../components/MovieCard';
 
 import useFavorites from '../../hooks/useFavorites';
-import type { MoviesData, Genre } from '../../types/moviesData';
+import type { MoviesData, GenreMovieData } from '../../types/moviesData';
 import BackButton from '../../components/ui/BackButton';
+import FilterDropdown from '../../components/ui/FilterDropdown';
+
+import getYearOptions from '../../utils/years'
 
 const Movies = () => {
-
     const [movies, setMovies] = useState<MoviesData[]>([]);
-    const [genres, setGenres] = useState<Genre[]>([]);
     const { toggleFavorite, isFavorite } = useFavorites();
+
     const [page, setPage] = useState(1);
     const [, setTotalPages] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+    const [selectedYear, setSelectedYear] = useState<number | null>(null);
+
+    const { data: genresData } = useQuery<GenreMovieData>({
+        queryKey: ['genres'],
+        queryFn: () => getMoviesGenres().then(res => res.data),
+        staleTime: 1000 * 60 * 60
+    });
+
+    const genres = genresData?.genres ?? [];
 
     useEffect(() => {
         let active = true;
+        const isFirstPage = page === 1;
 
-        getDiscoverMovies(page).then(res => {
+        getDiscoverMovies(page, selectedGenre, selectedYear).then(res => {
             if (!active) return;
             setMovies(prev => {
-                const newMovies = res.data.results.filter(
+                const results = res.data.results;
+                const newMovies = results.filter(
                     (movie: MoviesData) => !prev.some(m => m.id === movie.id)
                 );
-                return [...prev, ...newMovies];
+                return isFirstPage ? results : [...prev, ...newMovies];
             });
             setTotalPages(res.data.total_pages);
             setIsLoading(false);
         });
 
         return () => { active = false; };
-    }, [page]);
-
-    useEffect(() => {
-        getGenres().then(res => setGenres(res.data.genres));
-    }, []);
-
+    }, [page, selectedGenre, selectedYear]);
 
     return (
-        <div className='mx-auto w-full max-w-400 px-4 pb-12 pt-6 sm:px-6 lg:px-8 place-items-center'>
+        <div className='mx-auto w-full max-w-400 px-4 pb-12 pt-6 sm:px-6 lg:px-8 place-items-center' >
             <BackButton />
-            <h2 className='mb-10 mt-15 md:mt-0.5 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All our <span className='text-red-500'>movies</span></h2>
+            <h2 className='mb-7 mt-15 md:mt-0.5 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All our <span className='text-red-500'>movies</span></h2>
+
+            <div className="flex items-center gap-3 mb-6">
+                <FilterDropdown
+                    label="Genre"
+                    options={genres}
+                    selected={selectedGenre}
+                    onSelect={(id) => { setSelectedGenre(id as number | null); setPage(1); }}
+                />
+                <FilterDropdown
+                    label="Year"
+                    options={getYearOptions()}
+                    selected={selectedYear}
+                    onSelect={(id) => { setSelectedYear(id as number | null); setPage(1); }}
+                />
+            </div>
+
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
                 {movies.map(movie => (
                     <MovieCard key={movie.id} show={movie} genres={genres} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
@@ -66,7 +92,7 @@ const Movies = () => {
                     </>
                 ) : 'Load more'}
             </button>
-        </div>
+        </div >
     );
 }
 
