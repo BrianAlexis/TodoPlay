@@ -85,13 +85,13 @@ const FeaturedMovie = ({ popularMovies, genres }: Props) => {
                                 type='button'
                                 onClick={handlePlayTrailer}
                                 disabled={isLoadingTrailer}
-                                className="flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-red-500 cursor-pointer">
+                                className="flex items-center gap-2 rounded-xl bg-red-600 p-3 md:px-6 md:py-3 text-sm font-bold text-white transition-colors hover:bg-red-500 cursor-pointer">
                                 <Play size={16} fill="white" /> Watch trailer
                             </button>
                             {trailerError && (
                                 <p className="mb-2 text-[11px] leading-tight text-red-300">{trailerError}</p>
                             )}
-                            <Link className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer"
+                            <Link className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 p-3 md:px-6 md:py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 cursor-pointer"
                                 to={`/movie/${featuredMovie.id}`}>
                                 <Info size={16} /> More Info
                             </Link>

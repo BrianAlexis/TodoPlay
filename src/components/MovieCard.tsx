@@ -57,7 +57,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     };
 
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onClick={() => navigate(`/${type}/${show.id}`)} onMouseEnter={handleMouseEnter}>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onMouseEnter={handleMouseEnter}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img
@@ -90,7 +90,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
                         >
                             <Play size={12} fill="black" /> {isLoadingTrailer ? 'Loading...' : 'Watch trailer'}
                         </button>
-                        <button className="w-9 h-8 bg-white/20 border border-white/30 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <button className="w-9 h-8 bg-white/20 border border-white/30 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors" onClick={() => navigate(`/${type}/${show.id}`)}>
                             <Info size={12} className="text-white" />
                         </button>
                     </div>

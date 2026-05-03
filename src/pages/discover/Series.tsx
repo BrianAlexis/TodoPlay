@@ -11,6 +11,7 @@ import BackButton from '../../components/ui/BackButton';
 import FilterDropdown from '../../components/ui/FilterDropdown';
 
 import getYearOptions from '../../utils/years';
+import Navbar from '../../components/Navbar';
 
 const Series = () => {
 
@@ -56,24 +57,29 @@ const Series = () => {
 
     return (
         <div className='mx-auto w-full max-w-400 px-4 pb-12 pt-6 sm:px-6 lg:px-8 place-items-center'>
+            <Navbar />
 
-            <BackButton />
+            <h2 className='my-10 md:mt-15 md:mb-10 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All our <span className='text-red-500'>series</span></h2>
 
-            <h2 className='mb-10 mt-15 md:mt-0.5 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All our <span className='text-red-500'>series</span></h2>
-
-            <div className="flex items-center gap-3 mb-6">
-                <FilterDropdown
-                    label="Genre"
-                    options={genres}
-                    selected={selectedGenre}
-                    onSelect={(id) => { setSelectedGenre(id as number | null); setPage(1); }}
-                />
-                <FilterDropdown
-                    label="Year"
-                    options={getYearOptions()}
-                    selected={selectedYear}
-                    onSelect={(id) => { setSelectedYear(id as number | null); setPage(1); }}
-                />
+            <div className="flex items-center mb-6 w-full gap-1.5">
+                <div className="flex-1">
+                    <BackButton />
+                </div>
+                <div className="flex items-center gap-3">
+                    <FilterDropdown
+                        label="Genre"
+                        options={genres}
+                        selected={selectedGenre}
+                        onSelect={(id) => { setSelectedGenre(id as number | null); setPage(1); }}
+                    />
+                    <FilterDropdown
+                        label="Year"
+                        options={getYearOptions()}
+                        selected={selectedYear}
+                        onSelect={(id) => { setSelectedYear(id as number | null); setPage(1); }}
+                    />
+                </div>
+                <div className="flex-1" />
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-5">
@@ -84,7 +90,7 @@ const Series = () => {
             <button
                 onClick={() => { setIsLoading(true); setPage(page + 1); }}
                 disabled={isLoading}
-                className="flex mt-5 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-red-500 cursor-pointer disabled:cursor-not-allowed"
+                className="flex mt-5 rounded-xl bg-red-600 p-3 md:px-6 md:py-3 font-bold text-white transition-colors hover:bg-red-500 cursor-pointer disabled:cursor-not-allowed"
             >
                 {isLoading ? (
                     <>

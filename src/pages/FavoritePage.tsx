@@ -8,6 +8,7 @@ import type { MovieDetailData } from '../types/moviesData';
 import type { SeriesDetailData } from '../types/seriesData';
 import FavoriteCard from '../components/FavoriteCard';
 import BackButton from '../components/ui/BackButton';
+import Navbar from '../components/Navbar';
 
 const FavoritesPage = () => {
     const { favorites, toggleFavorite } = useFavorites();
@@ -32,17 +33,12 @@ const FavoritesPage = () => {
     }, [favorites]);
 
     return (
-        <main className="min-h-screen bg-[#090b14] text-white">
+        <main className="min-h-screen text-white">
             <div className="mx-auto w-full max-w-400 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+                <Navbar />
 
-                <div className="mb-32 flex items-center justify-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-red-600/20">
-                        <Heart size={20} className="fill-red-500 text-red-500" />
-                    </div>
-                    <BackButton />
-                    <div>
-                        <h1 className="text-2xl font-bold text-white">My Favorites</h1>
-                    </div>
+                <div className="mb-5 flex justify-center gap-3">
+                    <h2 className='my-10 md:mt-15 md:mb-10 text-3xl font-black leading-tight text-white md:text-5xl text-center'>All your <span className='text-red-500'>favorites</span> shows</h2>
                 </div>
 
                 {favoriteMovies.length === 0 && favoriteSeries.length === 0 && (
@@ -57,27 +53,33 @@ const FavoritesPage = () => {
                     </div>
                 )}
 
-                {favoriteMovies.length > 0 && (
-                    <section className="mb-10">
-                        <h2 className="text-white text-4xl font-bold mb-4">Movies</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            {favoriteMovies.map(item => (
-                                <FavoriteCard key={item.id} item={item} toggleFavorite={toggleFavorite} />
-                            ))}
-                        </div>
-                    </section>
-                )}
+                <div>
+                    <BackButton />
+                    <div className='mt-5'>
+                        {favoriteMovies.length > 0 && (
+                            <section className="mb-10">
+                                <h2 className="text-white text-4xl font-bold mb-4">Your favorite <span className='text-red-500'>movies</span></h2>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                    {favoriteMovies.map(item => (
+                                        <FavoriteCard key={item.id} item={item} toggleFavorite={toggleFavorite} />
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </div>
 
-                {favoriteSeries.length > 0 && (
-                    <section className="mb-10">
-                        <h2 className="text-white text-4xl font-bold mb-4">Series</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            {favoriteSeries.map(item => (
-                                <FavoriteCard key={item.id} item={item} toggleFavorite={toggleFavorite} />
-                            ))}
-                        </div>
-                    </section>
-                )}
+
+                    {favoriteSeries.length > 0 && (
+                        <section className="mb-10">
+                            <h2 className="text-white text-4xl font-bold mb-4">Your favorite <span className='text-red-500'>series</span></h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                {favoriteSeries.map(item => (
+                                    <FavoriteCard key={item.id} item={item} toggleFavorite={toggleFavorite} />
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
             </div>
         </main >
     );
