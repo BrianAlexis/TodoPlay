@@ -57,7 +57,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
     };
 
     return (
-        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onMouseEnter={handleMouseEnter}>
+        <article className='group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 hover:shadow-xl hover:shadow-black/30' onMouseEnter={handleMouseEnter} onClick={() => navigate(`/${type}/${show.id}`)}>
 
             <div className="relative aspect-2/3 overflow-hidden">
                 <img
@@ -84,7 +84,7 @@ const MovieCard = ({ show, genres, showHotBadge = false, toggleFavorite, isFavor
                     <div className="flex gap-2 mb-2">
                         <button
                             type="button"
-                            onClick={handlePlayTrailer}
+                            onClick={(e) => { e.stopPropagation(); handlePlayTrailer() }}
                             disabled={isLoadingTrailer}
                             className="flex-1 bg-white text-black text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-gray-200 transition-colors disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                         >
