@@ -2,6 +2,8 @@
 
 A modern movie and series discovery app built with React, powered by the TMDB API. Browse trending content, explore movies and series, watch trailers, and save your favorites.
 
+<img width="1535" height="1069" alt="TodoPlay" src="https://github.com/user-attachments/assets/853bdf61-21d5-49f2-a8e9-df110975791c" />
+
 **Live demo:** [todo-play-liart.vercel.app](https://todo-play-liart.vercel.app)
 
 ---
